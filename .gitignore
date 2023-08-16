@@ -1,0 +1,17 @@
+rootfs/
+temp/
+*.org
+*.delme
+*.log
+*.jou
+.metadata/
+RemoteSystemsTempFiles/
+Packages/
+webtalk/
+
+# Archives
+*.tar.gz
+
+# Xilinx
+.Xil
+
