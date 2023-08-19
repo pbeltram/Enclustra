@@ -1,0 +1,6 @@
+PETALINUX_VER=2020.2
+VALIDATE_HW_CHKSUM=1
+HARDWARE_PATH=/mnt/src/gitrepos/myXilinxProgs/Enclustra/lnx/petalnx/xu8_fmcxm105_xsa/system_top.xsa
+HARDWARE_CHECKSUM=7725ad83fee8ea160b316a7a08d56c1d
+YOCTO_SDK=267ec34beec0964aff190e9bebb3cc43
+RFSCONFIG_CHKSUM=3113fc1bc64568bca4eb7a1db8f53375
