@@ -1,6 +1,6 @@
-### Enclustra  
+**Enclustra**  
 
-Enclustra Mercury XU8 and ST1 board developement.  
+Enclustra Mercury XU8 and ST1 board development.  
 
 Look for ```README.md``` file in each project subdirectory for instructions.  
 
