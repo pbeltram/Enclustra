@@ -1,0 +1,20 @@
+.*
+temp/
+*.org
+*.delme
+*.log
+.metadata/
+*.dtb
+*.preprocessed
+#
+# XSDK files we don't want to ignore
+#
+!.project
+!.cproject
+
+#
+# git files that we don't want to ignore even it they are dot-files
+#
+!.gitignore
+!.mailmap
+
