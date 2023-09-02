@@ -8,7 +8,8 @@ INSTALL_DIR ?= .
 
 KIMAGE=$(XLINUX_DIR)/arch/arm64/boot/Image.gz
 #CONFIG=xilinx_zynqmp_defconfig
-CONFIG=enclustra_zynqmp_defconfig
+#CONFIG=enclustra_zynqmp_defconfig
+CONFIG=enclustra_iio_zynqmp_defconfig
 
 # Versioning system
 BUILD_NUMBER ?= 1
