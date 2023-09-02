@@ -1,15 +1,12 @@
 
----  
+---
 **Build Analog hdl-analog IP repo**  
 ```
 source ~/opt/Xilinx/Vivado/2020.2/settings64.sh
 cd ./hdl-analog
 make lib
 ```
-
 ---
-
----  
 **FWID: mmddnn**  
 ```  
 mm=1..12, dd=01..31, nn=1..
@@ -31,10 +28,10 @@ Connector FMC-HA on picture has cross-wire connection `RX0/TX0 <-> RX2/TX2` and 
 
 ---
 **xu8_fmcomms3**  
-Mercury XU8 ST1 with Analog AD-FMCOMMS3-EBZ board.
+Mercury XU8 ST1 with Analog AD-FMCOMMS3-EBZ board.  
 NOTE: Some HW patching on AD-FMCOMMS3 board is needed.  
 
-**Important NOTE:**
+**Important NOTE:**  
 **You can destroy your HW boards by HW patching!**
 You must know and be aware of what you are doing. If you are not, than don't do it.  
 Complete and whole resposability on HW patching results is yours.  
