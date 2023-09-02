@@ -32,12 +32,12 @@ Mercury XU8 ST1 with Analog AD-FMCOMMS3-EBZ board.
 NOTE: Some HW patching on AD-FMCOMMS3 board is needed.  
 
 **Important NOTE:**  
-**You can destroy your HW boards by HW patching!**
+**You can destroy your HW boards by HW patching!**  
 You must know and be aware of what you are doing. If you are not, than don't do it.  
-Complete and whole resposability on HW patching results is yours.  
+Complete and whole responsibility on HW patching results is yours.  
 You have been warned.  
 
-If still interested, see [README.md](./xu8_fmcomms3/README.md).
+If still interested, see [README.md](./xu8_fmcomms3/README.md).  
 ![xu8_fmcomms3](./xu8_fmcomms3.jpg)  
 ![Analog OSC](./xu8_fmcomms3_osc.png)  
 ![Analog OSC loopback FFT](./xu8_fmcomms3_osc_fft.png)  
