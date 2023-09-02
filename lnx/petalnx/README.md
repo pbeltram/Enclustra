@@ -34,5 +34,7 @@ petalinux-build -c rootfs
 petalinux-build
 ```
 
-NOTE: Petalinux build binaries are copied and used to build boot.bin and image.ub in sd_disk boards directories.  
+**NOTE:**  
+Petalinux build binaries are copied and used to build boot.bin and image.ub in sd_disk boards directories.  
+
 ---
