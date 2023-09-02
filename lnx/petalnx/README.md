@@ -5,6 +5,7 @@
 
 ```
 source ~/opt/Xilinx/petalnx/2020.2/settings.sh
+cd /mnt/src/gitrepos/Enclustra/lnx/petalnx/xu8_fmcomms3
 cd /mnt/src/gitrepos/Enclustra/lnx/petalnx/xu8_fmcxm105
 ```
 ---
@@ -19,6 +20,7 @@ ${PROOT}/../../linux/linux-rpt
 **Build XU8:**
 **NOTE:** Console terminal Width/Height for petalinux-config must be min 20 lines 80 columns!
 ```
+petalinux-config --get-hw-description=../xu8_fmcomms3_xsa
 petalinux-config --get-hw-description=../xu8_fmcxm105_xsa
 
 petalinux-build -x mrproper
@@ -30,6 +32,7 @@ petalinux-build -c device-tree
 petalinux-build -c bootloader
 petalinux-build -c rootfs
 petalinux-build
-petalinux-package --boot --fsbl ./images/linux/zynqmp_fsbl.elf --fpga ./images/linux/system.bit --pmufw ./images/linux/pmufw.elf --u-boot ./images/linux/u-boot.elf --atf ./images/linux/bl31.elf --force --output ./images/linux/BOOT.BIN
 ```
+
+NOTE: Petalinux build binaries are copied and used to build boot.bin and image.ub in sd_disk boards directories.  
 ---
