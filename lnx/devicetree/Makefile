@@ -2,7 +2,8 @@
 
 override SRC_TOP:=..
 
-BUILD?=xu8_fmcxm105
+#BUILD?=xu8_fmcxm105
+BUILD?=xu8_fmcomms3
 
 CCROSS?_COMPILE?=aarch64-linux-gnu-
 LX_DIR?=../linux/linux-rpt
