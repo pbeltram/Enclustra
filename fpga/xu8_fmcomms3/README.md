@@ -13,10 +13,18 @@ vivado project_xu8_fmcomms2/xu8_fmcomms3.xpr
 
 ---  
 
+Beacuse of missing some FMC connections, HW patching on AD-FMCOMMS3 board is needed.  
+
+**Important NOTE:**
+**You can destroy your HW boards by HW patching!**
+You must know and be aware of what you are doing. If you are not, than don't do it.  
+Complete and whole resposability on HW patching result is on you.  
+You have been warned.  
+
 **Missing ST1 FMC to AD-FMCOMMS3 connections:**  
 
 ```
-LA28_P	RESETB 	Input Active Low input, pull up to VADJ(1V8) on AD-FCOMMS3
+LA28_P	RESETB 	Input Active Low input, pull up to VADJ(1V8) on AD-FMCOMMS3
 LA25_P	CTRL_I_N2 	Input Control input
 LA25_N	CTRL_I_N3 	Input Control input
 LA26_P	SPI_ENB 	Input
@@ -26,7 +34,8 @@ LA27_N	SPI_DO 	Output
 ```
 
 **RESETB**  
-RESETB signal is pulled up on AD-FMCOMMS3-EBZ board. No HW reset of AD9361 chip is possible.  
+RESETB signal is pulled up on AD-FMCOMMS3-EBZ board.  
+No way to solve this easely, so no HW reset of AD9361 chip is possible.  
 ![RESETB](./hw_patch_pictures/RESETB.png)  
 
 **CTRL_I_N2 and CTRL_IN3**  
@@ -40,7 +49,7 @@ SPI signals on AD-FMCOMMS3-EBZ schematic.
 All four SPI signals have test points (TP228, TP229, TP236, TP237) on top PCB.  
 ![SPI test points on PCB](./hw_patch_pictures/SPI_test_points-markings.png).   
 
-Solder wires from SPI test points to connector.  
+Solder wires from SPI test points to connector. Read first the `Important NOTE:` and warning from above!  
 ![SPI wires patch](./hw_patch_pictures/SPI_TP_soldering.png).   
 ![FMCOMMS3 SPI wire patch](./hw_patch_pictures/xu_fmcomms3_spi_patch.png).   
 

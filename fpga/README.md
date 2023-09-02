@@ -32,7 +32,15 @@ Connector FMC-HA on picture has cross-wire connection `RX0/TX0 <-> RX2/TX2` and 
 ---
 **xu8_fmcomms3**  
 Mercury XU8 ST1 with Analog AD-FMCOMMS3-EBZ board.
-NOTE: Some simple HW patching on AD-FMCOMMS3 board is needed. See [README.md](./xu8_fmcomms3/README.md).
+NOTE: Some HW patching on AD-FMCOMMS3 board is needed.  
+
+**Important NOTE:**
+**You can destroy your HW boards by HW patching!**
+You must know and be aware of what you are doing. If you are not, than don't do it.  
+Complete and whole resposability on HW patching results is yours.  
+You have been warned.  
+
+If still interested, see [README.md](./xu8_fmcomms3/README.md).
 ![xu8_fmcomms3](./xu8_fmcomms3.jpg)  
 ![Analog OSC](./xu8_fmcomms3_osc.png)  
 ![Analog OSC loopback FFT](./xu8_fmcomms3_osc_fft.png)  
