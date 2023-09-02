@@ -4,3 +4,6 @@
 [submodule "lnx/u-boot/u-boot-rpt"]
 	path = lnx/u-boot/u-boot-rpt
 	url = git@github.com:pbeltram/u-boot-rpt.git
+[submodule "fpga/hdl-analog"]
+	path = fpga/hdl-analog
+	url = git@github.com:pbeltram/hdl-analog.git
