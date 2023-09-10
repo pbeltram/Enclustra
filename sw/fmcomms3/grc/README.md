@@ -23,7 +23,9 @@ sudo apt install libboost-all-dev libgmp-dev python3-numpy python3-sphinx libqwt
 ```
 
 Needed by gr-iio:  
-`sudo apt-get install liborc-dev`
+```
+sudo apt-get install liborc-dev
+```
 
 Needed by gr-gsm:  
 ```
@@ -34,6 +36,7 @@ Suggested packages:
 ```
 sudo apt install gr-osmosdr gr-fosphor libcppunit-doc libvolk2-doc python-networkx-doc python3-gdal python3-pygraphviz python3-pydot libgle3 libgle3-dev python-pyqt5.qwt-doc python-pyqtgraph-doc
 ```
+
 ---
 
 **Build libiio**  
