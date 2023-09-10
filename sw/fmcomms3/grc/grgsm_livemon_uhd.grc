@@ -1,0 +1,577 @@
+options:
+  parameters:
+    author: ''
+    category: Custom
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: 'Interactive monitor of a single C0 channel with analysis performed
+      by Wireshark (command to run wireshark: sudo wireshark -k -f udp -Y gsmtap -i
+      lo)'
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: grgsm_livemon_uhd
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Gr GSM Livemon
+    window_size: 2280, 1024
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 11]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: fc_slider
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Frequency
+    min_len: '100'
+    orient: Qt.Horizontal
+    rangeType: float
+    start: 800e6
+    step: 2e5
+    stop: 1990e6
+    value: fc
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 11]
+    rotation: 0
+    state: enabled
+- name: gain_slider
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Gain
+    min_len: '100'
+    orient: Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.5'
+    stop: '50'
+    value: gain
+    widget: counter
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12.0]
+    rotation: 0
+    state: enabled
+- name: blocks_socket_pdu_1
+  id: blocks_socket_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    host: 127.0.0.1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu: '1500'
+    port: '4729'
+    tcp_no_delay: 'False'
+    type: UDP_CLIENT
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 292.0]
+    rotation: 0
+    state: enabled
+- name: collector
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: IP or DNS name of collector point
+    short_id: ''
+    type: ''
+    value: '''localhost'''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1424, 12.0]
+    rotation: 0
+    state: enabled
+- name: collectorport
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: UDP port number of collector
+    short_id: ''
+    type: ''
+    value: '''4729'''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1248, 12.0]
+    rotation: 0
+    state: enabled
+- name: fc
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: fc
+    short_id: ''
+    type: eng_float
+    value: 936.6e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 8]
+    rotation: 0
+    state: enabled
+- name: gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: gain
+    short_id: ''
+    type: eng_float
+    value: '30'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 8]
+    rotation: 0
+    state: enabled
+- name: gsm_bcch_ccch_demapper_0
+  id: gsm_bcch_ccch_demapper
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeslot_nr: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 276.0]
+    rotation: 0
+    state: enabled
+- name: gsm_clock_offset_control_0
+  id: gsm_clock_offset_control
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fc: fc_slider-shiftoff
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    osr: osr
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 564.0]
+    rotation: 180
+    state: enabled
+- name: gsm_control_channels_decoder_0
+  id: gsm_control_channels_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 280.0]
+    rotation: 0
+    state: enabled
+- name: gsm_control_channels_decoder_1
+  id: gsm_control_channels_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 352.0]
+    rotation: 0
+    state: enabled
+- name: gsm_decryption_0
+  id: gsm_decryption
+  parameters:
+    a5_version: '1'
+    affinity: ''
+    alias: ''
+    comment: ''
+    k_c: '[]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 340.0]
+    rotation: 0
+    state: enabled
+- name: gsm_input_0
+  id: gsm_input
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fc: fc_slider-shiftoff
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    osr: osr
+    ppm: ppm-int(ppm)
+    samp_rate_in: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 424.0]
+    rotation: 0
+    state: enabled
+- name: gsm_message_printer_0
+  id: gsm_message_printer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    prepend_fnr: 'True'
+    prepend_frame_count: 'True'
+    prepend_string: '"MSG1"'
+    print_gsmtap_header: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1448, 444.0]
+    rotation: 0
+    state: enabled
+- name: gsm_message_printer_1
+  id: gsm_message_printer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    prepend_fnr: 'True'
+    prepend_frame_count: 'True'
+    prepend_string: '"MSG0"'
+    print_gsmtap_header: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1440, 132.0]
+    rotation: 0
+    state: enabled
+- name: gsm_receiver_0
+  id: gsm_receiver
+  parameters:
+    affinity: ''
+    alias: ''
+    cell_allocation: '[int(arfcn.downlink2arfcn(int(fc)))]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    osr: osr
+    tseq_nums: '[]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 408.0]
+    rotation: 0
+    state: enabled
+- name: gsm_sdcch8_demapper_0
+  id: gsm_sdcch8_demapper
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeslot_nr: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 452.0]
+    rotation: 0
+    state: enabled
+- name: iio_fmcomms2_source_0
+  id: iio_fmcomms2_source
+  parameters:
+    affinity: ''
+    alias: ''
+    auto_filter: 'True'
+    bandwidth: int(250000+abs(shiftoff))
+    bbdc: 'True'
+    buffer_size: '0x8000'
+    comment: ''
+    filter: ''
+    frequency: int(fc_slider-shiftoff)
+    gain1: '''manual'''
+    gain2: '''manual'''
+    manual_gain1: gain
+    manual_gain2: '64.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    quadrature: 'True'
+    rf_port_select: '''A_BALANCED'''
+    rfdc: 'True'
+    rx1_en: 'True'
+    rx2_en: 'False'
+    samplerate: int(samp_rate)
+    uri: uri
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 316.0]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: from math import pi
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 12]
+    rotation: 0
+    state: enabled
+- name: import_1
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: from grgsm import arfcn
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 12.0]
+    rotation: 0
+    state: true
+- name: osr
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: OverSampling Ratio
+    short_id: ''
+    type: intx
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 13]
+    rotation: 0
+    state: enabled
+- name: ppm
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ppm
+    short_id: p
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 16]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: fc_slider
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'True'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 272.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: samp_rate
+    short_id: s
+    type: eng_float
+    value: '2000000.052982'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 116.0]
+    rotation: 0
+    state: enabled
+- name: shiftoff
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Frequency Shiftoff
+    short_id: o
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [752, 13]
+    rotation: 0
+    state: enabled
+- name: uri
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: URI
+    short_id: ''
+    type: ''
+    value: '''ip:xu8'''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 148.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [gsm_bcch_ccch_demapper_0, bursts, gsm_control_channels_decoder_0, bursts]
+- [gsm_clock_offset_control_0, ctrl, gsm_input_0, ctrl_in]
+- [gsm_control_channels_decoder_0, msgs, blocks_socket_pdu_1, pdus]
+- [gsm_control_channels_decoder_0, msgs, gsm_message_printer_1, msgs]
+- [gsm_control_channels_decoder_1, msgs, blocks_socket_pdu_1, pdus]
+- [gsm_control_channels_decoder_1, msgs, gsm_message_printer_0, msgs]
+- [gsm_decryption_0, bursts, gsm_control_channels_decoder_1, bursts]
+- [gsm_input_0, '0', gsm_receiver_0, '0']
+- [gsm_receiver_0, C0, gsm_bcch_ccch_demapper_0, bursts]
+- [gsm_receiver_0, C0, gsm_sdcch8_demapper_0, bursts]
+- [gsm_receiver_0, measurements, gsm_clock_offset_control_0, measurements]
+- [gsm_sdcch8_demapper_0, bursts, gsm_decryption_0, bursts]
+- [iio_fmcomms2_source_0, '0', gsm_input_0, '0']
+- [iio_fmcomms2_source_0, '0', qtgui_freq_sink_x_0, '0']
+
+metadata:
+  file_format: 1
