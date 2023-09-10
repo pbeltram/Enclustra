@@ -196,14 +196,14 @@ ln -s ../site-packages/grgsm ./grgsm
 
 Compile with gnuradio-companion and then run `./grgsm_livemon_uhd.py`.  
 To capture gsmtap run: `wireshark -k -f udp -Y '!icmp && gsmtap' -i lo`.  
-[!grgsm_livemon_uhd](./grgsm_livemon_uhd.png)  
+![grgsm_livemon_uhd](./grgsm_livemon_uhd.png)  
 
 ---
 
 **Running adsb_rx GNU Radio example**  
 
 Compile with gnuradio-companion and then run `./adsb_rx.py`.  
-[!adsb_rx](./adsb_rx.png)  
+![adsb_rx](./adsb_rx.png)  
 
 ---
 
