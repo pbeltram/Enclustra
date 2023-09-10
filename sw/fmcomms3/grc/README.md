@@ -1,9 +1,9 @@
 
 ---
 
-Hint: Read first this doc fromtop to bottom, before installing and building.  
+Hint: Read first this doc from top to bottom, before installing and building.  
 There are for sure other ways to install and/or build needed packages.  
-Description here is for my way.  
+Description here is my way.  
 
 ---
 
