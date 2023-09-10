@@ -4,12 +4,4 @@
 # Python
 *.pyc
 
-#
-*.png
-*.bmp
-*.jpg
-*.dat
-*.txt
-*.cf*
-
 !.gitignore
