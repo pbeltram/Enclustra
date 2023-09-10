@@ -42,7 +42,7 @@ sudo apt install gr-osmosdr gr-fosphor libcppunit-doc libvolk2-doc python-networ
 ---
 
 **Build libiio**
-Clone [git repo](git@github.com:pbeltram/libiio.git)
+Clone git repo `git@github.com:pbeltram/libiio.git`  
 Checkout branch `pb_enclustra_2020.2_devel` (origin tag v0.23)  
 Build:  
 ```
@@ -68,7 +68,7 @@ sudo ldconfig
 ---
 
 **Build libad9361-iio**
-Clone [git repo](git@github.com:pbeltram/libad9361-iio.git)
+Clone git repo `git@github.com:pbeltram/libad9361-iio.git`  
 Checkout branch `pb_enclustra_2020.2_devel` (origin tag v0.3)  
 Build:  
 ```
@@ -98,7 +98,7 @@ sudo ldconfig
 **NOTE from Analog site:**
  If you are using gnuradio 3.10 or newer gr-iio is already provided within the base install of gnuradio itself. 3.9 is not supported in any form by gr-iio.  
 
-Clone [git repo](git@github.com:pbeltram/gr-iio.git)
+Clone git repo `git@github.com:pbeltram/gr-iio.git`  
 Checkout branch `pb_enclustra_2020.2_devel` (origin branch upstream/upgrade-3.8 commit abb2816d83dcf65f105902f2947b96570a7b7ccf).  
 
 Build:  
@@ -127,7 +127,7 @@ sudo ldconfig
 --- 
 
 **Build gr-adsb**
-Clone [git repo](https://github.com/mhostetter/gr-adsb.git)
+Clone git repo `https://github.com/mhostetter/gr-adsb.git`  
 Checkout branch master (origin commit 5d0361d208072574e1a3a200fca07c0b334f16d0).  
 Build:  
 ```
@@ -154,7 +154,7 @@ sudo ldconfig
 ---
 
 **Build gr-gsm**
-Clone [git repo](git@github.com:ptrkrysik/gr-gsm.git)
+Clone git repo `git@github.com:ptrkrysik/gr-gsm.git`  
 Checkout master branch (origin origin/master at commit 2de47e28ce1fb9a518337bfc0add36c8e3cff5eb).  
 Build:  
 ```
@@ -196,14 +196,14 @@ ln -s ../site-packages/grgsm ./grgsm
 
 Compile with gnuradio-companion and then run `./grgsm_livemon_uhd.py`.  
 To capture gsmtap run: `wireshark -k -f udp -Y '!icmp && gsmtap' -i lo`.  
-[!grgsm_livemon_uhd](./grgsm_livemon_uhd.png)
+[!grgsm_livemon_uhd](./grgsm_livemon_uhd.png)  
 
 ---
 
 **Running adsb_rx GNU Radio example**
 
 Compile with gnuradio-companion and then run `./adsb_rx.py`.  
-[!adsb_rx](./adsb_rx.png)
+[!adsb_rx](./adsb_rx.png)  
 
 ---
 
