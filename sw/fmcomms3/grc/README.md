@@ -30,11 +30,6 @@ Needed by gr-gsm:
 sudo apt install libosmocodec0 libosmocoding0 libosmocore libosmocore-dev libosmocore-utils libosmocore11 libosmoctrl0 libosmogb6 libosmogsm10 libosmosdr-dev libosmosdr0 libosmosim0 libosmovty4 soapyosmo-common0.7 soapysdr0.7-module-osmosdr
 ```
 
-Needed by iio-oscilloscope:  
-```
-sudo apt install libcurl4-openssl-dev libserialport-dev
-```
-
 Suggested packages:  
 ```
 sudo apt install gr-osmosdr gr-fosphor libcppunit-doc libvolk2-doc python-networkx-doc python3-gdal python3-pygraphviz python3-pydot libgle3 libgle3-dev python-pyqt5.qwt-doc python-pyqtgraph-doc
