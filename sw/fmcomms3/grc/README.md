@@ -9,7 +9,7 @@ Description here is my way.
 
 **Install GNU Radio 3.8.5.0 on Ubuntu 20.04-LTS**
 
-[Ubuntu Install](https://wiki.gnuradio.org/index.php/UbuntuInstall)
+Link to GNU Radio install [Ubuntu Install](https://wiki.gnuradio.org/index.php/UbuntuInstall).  
 
 Add PPA sources:  
 ```
@@ -41,7 +41,7 @@ sudo apt install gr-osmosdr gr-fosphor libcppunit-doc libvolk2-doc python-networ
 ```
 ---
 
-**Build libiio**
+**Build libiio**  
 Clone git repo `git@github.com:pbeltram/libiio.git`  
 Checkout branch `pb_enclustra_2020.2_devel` (origin tag v0.23)  
 Build:  
@@ -67,7 +67,7 @@ sudo ldconfig
 
 ---
 
-**Build libad9361-iio**
+**Build libad9361-iio**  
 Clone git repo `git@github.com:pbeltram/libad9361-iio.git`  
 Checkout branch `pb_enclustra_2020.2_devel` (origin tag v0.3)  
 Build:  
@@ -93,9 +93,9 @@ sudo ldconfig
 
 ---
 
-**Build gr-iio**
+**Build gr-iio**  
 
-**NOTE from Analog site:**
+**NOTE from Analog site:**  
  If you are using gnuradio 3.10 or newer gr-iio is already provided within the base install of gnuradio itself. 3.9 is not supported in any form by gr-iio.  
 
 Clone git repo `git@github.com:pbeltram/gr-iio.git`  
@@ -126,7 +126,7 @@ sudo ldconfig
 
 --- 
 
-**Build gr-adsb**
+**Build gr-adsb**  
 Clone git repo `https://github.com/mhostetter/gr-adsb.git`  
 Checkout branch master (origin commit 5d0361d208072574e1a3a200fca07c0b334f16d0).  
 Build:  
@@ -153,7 +153,7 @@ sudo ldconfig
 
 ---
 
-**Build gr-gsm**
+**Build gr-gsm**  
 Clone git repo `git@github.com:ptrkrysik/gr-gsm.git`  
 Checkout master branch (origin origin/master at commit 2de47e28ce1fb9a518337bfc0add36c8e3cff5eb).  
 Build:  
@@ -179,7 +179,7 @@ sudo ldconfig
 ```
 ---
 
-**NOTE:**
+**NOTE:**  
 GNU radio built and installed packages put their python modules in `/usr/local/lib/python3.8/site-packages`. This path is not in `gnuradio-companion` python modules search path and it fails to find modules (tried with PYTHONPATH but it does not help).  
 One workaround to this problem is to create symbolic links form `/usr/local/lib/python3.8/dist-packages` to modules in `/usr/local/lib/python3.8/site-packages`, since `/usr/local/lib/python3.8/dist-packages` is in the python3 search path.  
 Must be sudo to do it.  
@@ -192,7 +192,7 @@ ln -s ../site-packages/grgsm ./grgsm
 
 ---
 
-**Running grgsm_livemon_uhd GNU Radio example**
+**Running grgsm_livemon_uhd GNU Radio example**  
 
 Compile with gnuradio-companion and then run `./grgsm_livemon_uhd.py`.  
 To capture gsmtap run: `wireshark -k -f udp -Y '!icmp && gsmtap' -i lo`.  
@@ -200,7 +200,7 @@ To capture gsmtap run: `wireshark -k -f udp -Y '!icmp && gsmtap' -i lo`.
 
 ---
 
-**Running adsb_rx GNU Radio example**
+**Running adsb_rx GNU Radio example**  
 
 Compile with gnuradio-companion and then run `./adsb_rx.py`.  
 [!adsb_rx](./adsb_rx.png)  
