@@ -1,0 +1,13 @@
+*.cf64
+*.dat
+
+# Eclipse
+.settings/
+.tmp_versions/
+.*.mk
+/Debug/
+/Release/
+
+.metadata/
+RemoteSystemsTempFiles/
+
