@@ -1,6 +1,6 @@
 
-Parts of the code is using code from `gr-gsm` and `GNU radio` projets.  
-The appropriate licenese are copied here:  
+Parts of the code is using code from `gr-gsm` and `GNU radio` projects.  
+The appropriate licenses are copied here:  
 
 ```
 /*
