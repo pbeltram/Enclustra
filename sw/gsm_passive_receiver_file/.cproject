@@ -47,6 +47,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1897551329" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.pthread.1355282833" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.1849020586" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="osmocore"/>
+									<listOptionValue builtIn="false" value="osmocodec"/>
+									<listOptionValue builtIn="false" value="osmogsm"/>
+									<listOptionValue builtIn="false" value="osmocoding"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="rt"/>
 									<listOptionValue builtIn="false" value="dl"/>
@@ -115,6 +119,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.578567954" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
 								<option id="gnu.cpp.link.option.pthread.84890377" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.184474735" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="osmocore"/>
+									<listOptionValue builtIn="false" value="osmocodec"/>
+									<listOptionValue builtIn="false" value="osmogsm"/>
+									<listOptionValue builtIn="false" value="osmocoding"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="rt"/>
 									<listOptionValue builtIn="false" value="dl"/>

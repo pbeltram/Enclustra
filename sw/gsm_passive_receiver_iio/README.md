@@ -1,9 +1,8 @@
-
----
-
-Analyze file with captured IQ samples at 2.167 MSPS (OSR=8) in cf64 format at 2.167Mhz.  
+Capture in realtime IQ samples at 2.167 MSPS (OSR=8).  
+Data is captured from HW (e.g. AD-FMCOMMS3 board) via IIO.  
 Decode captured normal bursts and send gsmtaps to UDP port.  
 
+![AD-FMCOMMS3](./xu8_fmcomms3_hw_setup.jpg)  
 
 **Building**  
 
@@ -35,16 +34,11 @@ Using Eclipse CDT:
 
 **Running**  
 
-`./Debug/gsm_passive_receiver_file --input=./input_raw.216Mhz.arfcn1.ul.gain_7.cf64 --nofa=10k --mvalevel=0.3 --freqoff=-2150.0 --udpdest=127.0.0.1`
-
+`./Debug/gsm_passive_receiver_iio --input=ip:xu8 --arfcn=1 --uplink --nofa=80k --timeout=0 --mvalevel=0.3 --gain=7 --freqoff=-2700.0 --udpdest=127.0.0.1`
 
 To capture gsmtaps run: 
 `wireshark -k -f udp -Y gsmtap -i lo`
 
-![Console output](./gsm_passive_receiver_file.png)
 
 ---
 
-See LICENSE.md file too.
-
----

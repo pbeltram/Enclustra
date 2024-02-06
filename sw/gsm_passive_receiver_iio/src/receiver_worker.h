@@ -21,6 +21,7 @@
 
 #include <netinet/in.h> // sockaddr_in
 
+#include "signaldata.h"
 #include "gr_complex.h"
 #include "passive_receiver.h"
 
@@ -31,10 +32,9 @@ typedef std::tuple<gr_complex*,  uint32_t , uint32_t > burst_data_t;
 
 public:
 
-//----------------------------------------------------------------------------//
-receiver_worker(std::atomic<bool> &a_abort, uint32_t a_nof_a, std::string &a_finp,
-    double a_mva_threshols, float a_freq_offs,
-    bool a_write_burst, std::string &a_udp_dest);
+receiver_worker(std::atomic<bool> &a_abort, SignalDataPtr_type &a_sig_ch,
+    double a_mva_threshols, float a_freq_offs, uint16_t a_arfcn, bool a_uplink,
+    bool a_write, bool a_write_burst, std::string &a_udp_dest);
 ~receiver_worker();
 
 bool get_sample(gr_complex &a_sample);
@@ -43,8 +43,8 @@ void push_burst(const uint8_t *a_burst_binary);
 void run();
 void worker_thread_func();
 
-void dbg_dump_burst(uint32_t burst_nr, uint32_t a_burst_start_pos,
-    uint32_t a_burst_start, const uint8_t *a_burst_binary, uint32_t a_bsc, float a_corr_max);
+void dbg_dump_burst(uint32_t burst_nr, uint32_t a_burst_start_pos,  uint32_t a_burst_start,
+    const uint8_t *a_burst_binary, uint32_t a_bsc, float a_corr_max);
 void dbg_dump_result(uint32_t burst_nr, const uint8_t *a_result, size_t a_res_len);
 
 void send_udp(uint32_t a_burst_no, uint16_t a_arfcn, bool a_uplink, int8_t a_sig_dbm,
@@ -53,8 +53,6 @@ void send_udp(uint32_t a_burst_no, uint16_t a_arfcn, bool a_uplink, int8_t a_sig
 
 protected:
 
-//----------------------------------------------------------------------------//
-bool get_raw_cplx_sample(gr_complex &a_sample);
 bool get_raw_16bit_sample(gr_complex &a_sample);
 //----------------------------------------------------------------------------//
 
@@ -71,25 +69,26 @@ private:
 std::atomic<bool> &m_abort;
 std::atomic<bool> m_get_burst{false};
 
+uint32_t m_arfcn_no;
+bool m_arfcn_ul;
+
 passive_receiver* m_preceiver;
 float* m_lpfir_coeffs;
 size_t m_lpfir_len;
 size_t m_lpfir_flush;
 
 ssize_t m_cplx_readed;
-std::ifstream m_ifs;
-uint8_t* m_buffer_wr_ptr;
-size_t m_total_bytes;
-
-gr_complex* m_buffer_rd_cplx_ptr;
-size_t m_nof_cplx_read_size;
+SignalDataPtr_type m_sig_ch;
+SignalData::iiovalues_t* m_iq_dat;
+const SignalData::iiovalues_t* m_iq_end;
+size_t m_inc;
 
 std::complex<int16_t >* m_buffer_rd_16bit_ptr;
 size_t m_nof_16bit_read_size;
 uint32_t m_osr;
 
-std::string m_ifname;
 std::ofstream m_ofs;
+bool m_write;
 bool m_write_burst;
 
 float m_freq_offs;
@@ -100,6 +99,9 @@ size_t   m_nof_brsts;  // 4 consecutive bursts
 uint8_t* m_bursts_u; // Storage for 4 consecutive bursts bits (GSM0503_GPRS_BURSTS_NBITS)
 
 std::list<burst_data_t> m_burst_data_list;
+
+uint16_t m_arfcn;
+bool     m_uplink;
 
 bool m_send_udp;
 int m_udp_sock;

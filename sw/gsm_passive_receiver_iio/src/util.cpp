@@ -1,15 +1,23 @@
 /*
- * main.hpp
+ * util.cpp
  *
  *  Created on: Oct 7, 2023
  *      Author: primozb
  */
 
-#ifndef MAIN_HPP
-#define MAIN_HPP
+#include <iio.h>
+
+#include "util.h"
 
 //----------------------------------------------------------------------------//
+const std::string get_iio_strerror(int a_ret)
+{
+  char errstr[1024];
+  ::iio_strerror(a_ret, errstr, sizeof(errstr));
+
+  return std::string(errstr);
+}
 //----------------------------------------------------------------------------//
 
-#endif // MAIN_HPP
+
 

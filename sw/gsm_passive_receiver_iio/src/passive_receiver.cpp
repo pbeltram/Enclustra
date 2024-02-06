@@ -47,7 +47,7 @@ passive_receiver::~passive_receiver()
 //----------------------------------------------------------------------------//
 bool passive_receiver::work()
 {
-
+  //TODO: Move filtering and find burst to FPGA.
   m_burst_buffer = new gr_complex[m_burst_buff_size];
   if (!find_burst()) {
     delete [] m_burst_buffer;
@@ -99,6 +99,7 @@ bool passive_receiver::find_burst()
 
   enum states { search, find_max, search_fail } burst_search_state;
 
+  // Set initial state //
   burst_search_state = search;
 
   while (!end)

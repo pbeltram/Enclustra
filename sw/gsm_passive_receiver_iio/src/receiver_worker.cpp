@@ -12,11 +12,13 @@
 #include <stdexcept>
 #include <iomanip>
 #include <assert.h>
+#include <errno.h>
 
 #include <arpa/inet.h> // htons, inet_addr
 #include <sys/socket.h> // socket, sendto
 #include <unistd.h> // close
 
+#include "util.h"
 #include "gsm_constants.h"
 #include "gr_firdes.h"
 #include "gsmbox.h"
@@ -39,25 +41,25 @@ std::string string_format( const std::string& format, Args ... args )
 
 //----------------------------------------------------------------------------//
 receiver_worker::receiver_worker(std::atomic<bool> &a_abort,
-    uint32_t a_nof_a, std::string &a_finp,
-    double a_mva_threshold, float a_freq_offs,
-    bool a_write_burst, std::string &a_udp_dest) :
+    SignalDataPtr_type &a_sig_ch,
+    double a_mva_threshold, float a_freq_offs, uint16_t a_arfcn, bool a_uplink,
+    bool a_write, bool a_write_burst, std::string &a_udp_dest) :
   m_abort(a_abort),
   m_cplx_readed(0),
-  m_buffer_wr_ptr(nullptr),
-  m_total_bytes(0),
-  m_buffer_rd_cplx_ptr(nullptr),
-  m_nof_cplx_read_size(a_nof_a*sizeof(gr_complex)),
-  m_buffer_rd_16bit_ptr(nullptr),
-  m_nof_16bit_read_size(a_nof_a*sizeof(std::complex<int16_t >)),
+  m_sig_ch(a_sig_ch),
+  m_iq_dat(nullptr),
+  m_iq_end(nullptr),
+  m_inc(0),
   m_osr(8),
-  m_ifname(a_finp),
+  m_write(a_write),
   m_write_burst(a_write_burst),
   m_bdata_size((DATA_BITS+STEALING_BIT)*2),
   m_nof_brsts(4),
   m_bursts_u(nullptr),
   m_freq_offs(a_freq_offs),
   m_bsc(1),
+  m_arfcn(a_arfcn),
+  m_uplink(a_uplink),
   m_send_udp(false)
 {
 
@@ -70,9 +72,10 @@ receiver_worker::receiver_worker(std::atomic<bool> &a_abort,
 
   m_preceiver = new passive_receiver(m_osr, a_mva_threshold,
       std::bind(&receiver_worker::get_sample, this, std::placeholders::_1));
-  m_buffer_wr_ptr = new uint8_t[std::max(m_nof_cplx_read_size, m_nof_16bit_read_size)];
 
-  m_ifs.open(m_ifname.c_str(), std::ios::binary | std::ios::in);
+  if (m_write == true) {
+    m_ofs.open("./iq_16bit.dat", std::ios::binary | std::ios::out | std::ios::trunc);
+  }
 
   m_bursts_u = new uint8_t[m_bdata_size * m_nof_brsts];
 
@@ -88,10 +91,11 @@ receiver_worker::receiver_worker(std::atomic<bool> &a_abort,
 receiver_worker::~receiver_worker()
 {
   ::close(m_udp_sock);
-  m_ifs.close();
+  if (m_write == true) {
+    m_ofs.close();
+  }
 
   delete m_preceiver;
-  delete [] m_buffer_wr_ptr;
   delete [] m_bursts_u;
   delete [] m_lpfir_coeffs;
 }
@@ -101,7 +105,7 @@ receiver_worker::~receiver_worker()
 void receiver_worker::send_udp(uint32_t a_burst_no, uint16_t a_arfcn, bool a_uplink, int8_t a_sig_dbm,
     uint32_t a_res_len, uint8_t *a_result)
 {
-  uint8_t buf[sizeof(gsmtap_hdr) + a_res_len/*23*/];
+  uint8_t buf[sizeof(gsmtap_hdr) + a_res_len];
   ::memset(reinterpret_cast<void *>(buf), 0, sizeof(buf));
 
   struct gsmtap_hdr *tap_header = (struct gsmtap_hdr *) buf;
@@ -215,84 +219,65 @@ void receiver_worker::push_burst(const uint8_t *a_burst_binary)
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-bool receiver_worker::get_raw_cplx_sample(gr_complex &a_sample)
-{
-  if (m_abort.load() == true)
-    return false;
-
-  if (m_cplx_readed == 0) {
-    // Refill read buffer.
-    if (m_ifs.peek() == EOF) {
-      if (m_lpfir_flush-- != 0) {
-        a_sample = gr_complex(0, 0);
-        return true;
-      }
-      m_abort = true;
-      return false;
-    }
-    m_ifs.read(reinterpret_cast<char *>(m_buffer_wr_ptr), m_nof_cplx_read_size);
-    m_cplx_readed = m_ifs.gcount()/sizeof(gr_complex);
-    if (m_cplx_readed == 0) {
-      m_abort = true;
-      return false;
-    }
-    m_buffer_rd_cplx_ptr = reinterpret_cast<gr_complex *>(m_buffer_wr_ptr);
-    m_total_bytes += m_nof_cplx_read_size;
-  }
-
-  a_sample.real(m_buffer_rd_cplx_ptr->real());
-  a_sample.imag(m_buffer_rd_cplx_ptr->imag());
-
-  ++m_buffer_rd_cplx_ptr;
-  --m_cplx_readed;
-
-  return true;
-}
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
 bool receiver_worker::get_raw_16bit_sample(gr_complex &a_sample)
 {
+  std::lock_guard<std::mutex> lock(m_sig_ch->get_mutex());
+
   if (m_abort.load() == true)
     return false;
 
-  if (m_cplx_readed == 0) {
+  if (m_iq_dat == m_iq_end) {
+    assert((m_cplx_readed == 0) && ":Initial nof samples.");
     // Refill read buffer.
-    if (m_ifs.peek() == EOF) {
-      if (m_lpfir_flush-- != 0) {
-        a_sample = gr_complex(0, 0);
-        return true;
-      }
+    m_cplx_readed = m_sig_ch->refill()/m_sig_ch->sample_size();
+
+//    std::cout << "INFO: Refill cnt=" << std::dec << m_sig_ch->get_refill_cnt()
+//              << " Nof samples=" << std::dec << m_sig_ch->get_nofsamples()
+//              << " Nof readed=" << std::dec << m_cplx_readed
+//              << " Sample size=" << std::dec << m_sig_ch->sample_size()
+//              << std::endl;
+
+    if (m_cplx_readed > 0) {
+      m_iq_dat = m_sig_ch->get_iiovalues();
+      m_iq_end = m_sig_ch->get_rxbuf_end();
+      m_inc = m_sig_ch->get_rxbuf_inc();
+
+      if (m_write) m_ofs.write(reinterpret_cast<char *>(m_iq_dat), m_cplx_readed * m_sig_ch->sample_size());
+    }
+    else {
+      std::cout << "ERROR: Fill IIO rx buffer failed. errno=" << errno
+                << "-" << get_iio_strerror(errno).c_str()
+                << std::endl;
+
+      m_iq_dat = nullptr;
+      m_iq_end = static_cast<const SignalData::iiovalues_t *>(nullptr);
       m_abort = true;
       return false;
     }
-    m_ifs.read(reinterpret_cast<char *>(m_buffer_wr_ptr), m_nof_16bit_read_size);
-    m_cplx_readed = m_ifs.gcount()/sizeof(std::complex<int16_t >);
-    if (m_cplx_readed == 0) {
-      m_abort = true;
-      return false;
-    }
-    m_buffer_rd_16bit_ptr = reinterpret_cast<std::complex<int16_t > *>(m_buffer_wr_ptr);
-    m_total_bytes += m_nof_16bit_read_size;
   }
 
-  std::complex<int16_t > val = *m_buffer_rd_16bit_ptr;
-  gr_complex iq(val.real(), val.imag());
+  if (m_iq_dat < m_iq_end) {
+    SignalData::iiovalues_t val = *m_iq_dat;
+    gr_complex iq(val.real(), val.imag());
 
-  a_sample.real(m_buffer_rd_16bit_ptr->real() / 2048.0f);
-  a_sample.imag(m_buffer_rd_16bit_ptr->imag() / 2048.0f);
+    a_sample.real(m_iq_dat->real() / 2048.0f);
+    a_sample.imag(m_iq_dat->imag() / 2048.0f);
 
-  ++m_buffer_rd_16bit_ptr;
-  --m_cplx_readed;
+    ++m_iq_dat;
+    --m_cplx_readed;
 
-  return true;
+    return true;
+  }
+
+  assert((1 == 0) && ":Should not happen.");
+  return false;
 }
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
 bool receiver_worker::get_sample(gr_complex &a_sample)
 {
-  return get_raw_cplx_sample(a_sample);
+  return get_raw_16bit_sample(a_sample);
 }
 //----------------------------------------------------------------------------//
 
@@ -432,13 +417,10 @@ void receiver_worker::run()
         if (res_len) {
           dbg_dump_result(burst_no, result, 26);
           if (m_send_udp) {
-            uint16_t arfcn = 1;
-            bool uplink = true;
-
             float signal_dbm = round(10 * log10((corr_max_bsc * corr_max_bsc) / 50));
             int8_t sig_dbm = static_cast<int8_t>(signal_dbm);
 
-            send_udp(burst_no, arfcn, uplink, sig_dbm, res_len, result);
+            send_udp(burst_no, m_arfcn, m_uplink, sig_dbm, res_len, result);
           }
         }
 
