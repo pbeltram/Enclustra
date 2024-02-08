@@ -42,3 +42,6 @@ To capture gsmtaps run:
 
 ---
 
+See LICENSE.md file too.
+
+---
